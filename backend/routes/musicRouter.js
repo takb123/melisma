@@ -18,7 +18,10 @@ router.get("/album/:albumid", optionalAuth, getAlbum);
 router.get("/artist/:artistid", getArtist);
 
 // result: {
-//     albums: [{ id, name, image }]
+//     albums: [{
+//         id, name, image,
+//         artists: [{ id, name }]
+//     }] 
 // }
 router.get("/trending", getTrendingAlbums);
 

@@ -20,7 +20,12 @@ router.post("/follow/:username", requireAuth, followUser);
 // result: { success: 0 / 1 }
 router.post("/unfollow/:username", requireAuth, unfollowUser);
 
-// result: {}
+// result: {
+//     albums: [{
+//         id, name, image,
+//         artists: [{ id, name }]
+//     }] 
+// }
 router.get("/profile/:username", optionalAuth, getUser);
 
 // requirement: req.headers.authorization = Bearer <JWT_TOKEN>

@@ -21,7 +21,11 @@ const getAlbumCache = async (albumID) => {
         }
         album = { 
             name: json.name,
-            image: json.images[1]
+            image: json.images[1],
+            artists: json.artists.map(artist => ({
+                id: artist.id,
+                name: artist.name
+            }))
         };
         albumCache.set(albumID, album);
     }
