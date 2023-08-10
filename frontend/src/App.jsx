@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import SignUp from './pages/SignUp';
@@ -9,7 +10,8 @@ import Artist from './pages/Artist';
 import Search from './pages/Search';
 import User from './pages/User';
 import Notif from './pages/Notif';
-import './App.css'
+import './App.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 // Pink: #be0b6d
 // Purple: #6b3082
@@ -34,6 +36,18 @@ function App() {
             <Route path='/search/:query' element={<Search />} />
           </Routes>
         </div>
+        <ToastContainer
+          position="bottom-center"
+          autoClose={2500}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable={false}
+          pauseOnHover
+          theme="dark"
+        />
       </BrowserRouter>
     </div>
   )

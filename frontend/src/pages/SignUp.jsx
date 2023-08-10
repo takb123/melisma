@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { signin } from "../redux/authSlice";
 
 const SignUp = () => {
@@ -9,14 +10,12 @@ const SignUp = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(null);
         setIsLoading(true);
 
         const response = await fetch("http://localhost:4000/api/user/signup", {
@@ -39,7 +38,7 @@ const SignUp = () => {
         }
         else {
             setIsLoading(false);
-            setError(json.error);
+            toast.error(`Error: ${json.error}`);
         }
     }
 
@@ -49,14 +48,14 @@ const SignUp = () => {
                 <div className="title">Sign Up</div>
 
                 <div className="input">
-                    <label>Username</label>
-                    <input type="text" onChange={e => setUsername(e.target.value)} value={username} /> 
-                    <span className="req">Username must be 4-16 characters and must consist of lowercase alphabets, numbers, - or _</span>
+                    <label>Email</label>
+                    <input type="text" onChange={e => setEmail(e.target.value)} value={email} /> 
                 </div>
 
                 <div className="input">
-                    <label>Email</label>
-                    <input type="text" onChange={e => setEmail(e.target.value)} value={email} /> 
+                    <label>Username</label>
+                    <input type="text" onChange={e => setUsername(e.target.value)} value={username} /> 
+                    <span className="req">Username must be 4-16 characters and must consist of lowercase alphabets, numbers, - or _</span>
                 </div>
 
                 <div className="input">
@@ -69,8 +68,6 @@ const SignUp = () => {
                     <label>Confirm Password</label>
                     <input type="password" onChange={e => setConfirmPassword(e.target.value)} value={confirmPassword} /> 
                 </div>
-
-                {error && <div className="error">{error}</div>}
 
                 <div className={"button" + (isLoading ? " loading" : "")}>
                     <button className="signup">Sign Up</button>

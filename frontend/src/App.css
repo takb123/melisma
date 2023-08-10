@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;700;900&display=swap');
 
 /* All */
-* {
+html, nav *, .pages * {
   background-color: #101010;
   color: #f8f8f8;
   font-family: 'Lato', sans-serif;
