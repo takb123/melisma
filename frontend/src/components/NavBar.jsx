@@ -1,12 +1,29 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { signout } from '../redux/authSlice';
 import melismaLogo from '/melisma_logo.png'
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 const NavBar = () => {
     const auth = useSelector(state => state.auth.value);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [text, setText] = useState("");
+    const [menuOpen, setMenuOpen] = useState(false);
+    const menuRef = useRef();
+
+    useEffect(() => {
+        let handler = (e) => {
+            if (!menuRef.current.contains(e.target)) {
+                setMenuOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handler);
+        return () => {
+            document.removeEventListener("mousedown", handler);
+        };
+    });
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
@@ -14,6 +31,11 @@ const NavBar = () => {
             console.log(query);
             navigate(`/search/${query}`);
         }
+    };
+
+    const handleSignout = () => {
+        localStorage.removeItem("auth");
+        dispatch(signout());
     };
 
     return (
@@ -39,8 +61,26 @@ const NavBar = () => {
                 </span>
                 { auth ? (
                     <span className='container'>
-                        <Link to={`/`}>Home (For Now)</Link>
-                        <Link to={`/user/${auth.username}`}>Profile</Link>
+                        <div className='dropdown' ref={menuRef}>
+                            <div className='dropdown-icon' onClick={() => setMenuOpen(true)}>
+                                <span className="material-symbols-outlined">account_circle</span> 
+                                <span>{auth.username}</span>
+                            </div> 
+                            <div className={'dropdown-content' + (menuOpen ? "" : " hidden")}>
+                                <Link className="dropdown-line" to={`/user/${auth.username}`} onClick={() => setMenuOpen(false)}>
+                                    <span className="material-symbols-outlined">person</span>
+                                    <span>Profile</span>
+                                </Link>
+                                <Link className="dropdown-line" to={`/notif`} onClick={() => setMenuOpen(false)}>
+                                    <span className="material-symbols-outlined">notifications</span>
+                                    <span>Notifications</span>
+                                </Link>
+                                <span className="dropdown-line" onClick={() => { setMenuOpen(false); handleSignout(); }}>
+                                    <span className="material-symbols-outlined">logout</span>
+                                    <span>Sign Out</span>
+                                </span>
+                            </div>
+                        </div>
                     </span>
                     ) : (
                     <span className='container'>

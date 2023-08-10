@@ -18,7 +18,7 @@ const Home = () => {
     }, []);
 
     return (
-        <div className="home">
+        <div className="section">
             <p className="section-name">Trending Albums</p>
             {albums && albums.map(album => (<AlbumCard key={album.id} album={album}/>))}
         </div>
