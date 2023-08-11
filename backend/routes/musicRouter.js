@@ -1,6 +1,6 @@
 const express = require("express");
 const { requireAuth, optionalAuth } = require("../middleware/auth");
-const { getAlbum, getArtist, getTrendingAlbums, rateTrack, searchData } = require("../controllers/musicController");
+const { getAlbum, getArtist, getTrendingAlbums, getRating, createRating, searchData } = require("../controllers/musicController");
 
 const router = express.Router();
 
@@ -26,9 +26,13 @@ router.get("/artist/:artistid", getArtist);
 router.get("/trending", getTrendingAlbums);
 
 // requirement: req.headers.authorization = Bearer <JWT_TOKEN>
-// requirement: req.body = { ratingScore }
 // result: { one, two, three, four, five }
-router.post("/rating/:trackid", requireAuth, rateTrack);
+router.get("/rating/:trackid", requireAuth, getRating);
+
+// requirement: req.headers.authorization = Bearer <JWT_TOKEN>
+// requirement: req.body = { ratingScore }
+// result: { ratingScore }
+router.post("/rating/:trackid", requireAuth, createRating);
 
 // requirement: /search?name=...  (must be in URL Encoding)
 // result: {

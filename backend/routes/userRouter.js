@@ -24,7 +24,8 @@ router.post("/unfollow/:username", requireAuth, unfollowUser);
 //     albums: [{
 //         id, name, image,
 //         artists: [{ id, name }]
-//     }] 
+//     }],
+//     following: 0 / 1
 // }
 router.get("/profile/:username", optionalAuth, getUser);
 

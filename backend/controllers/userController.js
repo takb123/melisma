@@ -159,7 +159,16 @@ const getUser = async (req, res) => {
         );
         const albums = await Promise.all(albumQuery.rows.map(row => getAlbumCache(row.album_id)));
 
-        res.status(200).json({ albums });
+        let following = 0;
+        if (req.user) {
+            const followingQuery = await pool.query(
+                "SELECT follow_id FROM follows WHERE following_id=$1 AND follower_id=$2",
+                [req.user, userID]
+            );
+            following = followingQuery.rowCount;
+        }
+
+        res.status(200).json({ albums, following });
 
     } catch (error) {
         res.status(404).json({ error: error.message });

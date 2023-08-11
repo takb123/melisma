@@ -112,7 +112,41 @@ const getTrendingAlbums = async (req, res) => {
     }
 };
 
-const rateTrack = async (req, res) => {
+const getRating = async (req, res) => {
+    try {
+        const userID = req.user;
+        const trackID = req.params.trackid;
+
+        if (!trackID) {
+            throw new Error("Missing fields");
+        }
+
+        const ratingQuery = await pool.query(
+            "SELECT rating_id FROM ratings WHERE user_id=$1 AND track_id=$2",
+            [userID, trackID]
+        );
+        if (ratingQuery.rowCount === 0) {
+            throw new Error("Must rate track before viewing ratings");
+        }
+
+        const scoresQuery = await pool.query(
+            "SELECT COUNT(CASE WHEN rating_score = 1 THEN 1 ELSE NULL END) as one, \
+            COUNT(CASE WHEN rating_score = 2 THEN 1 ELSE NULL END) as two, \
+            COUNT(CASE WHEN rating_score = 3 THEN 1 ELSE NULL END) as three, \
+            COUNT(CASE WHEN rating_score = 4 THEN 1 ELSE NULL END) as four, \
+            COUNT(CASE WHEN rating_score = 5 THEN 1 ELSE NULL END) as five \
+            FROM ratings WHERE track_id=$1",
+            [trackID]
+        );
+
+        res.status(200).json({ ...scoresQuery.rows[0] });
+
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
+};
+
+const createRating = async (req, res) => {
     try {
         const { ratingScore } = req.body;
         const userID = req.user;
@@ -129,20 +163,12 @@ const rateTrack = async (req, res) => {
         const upsertQuery = await pool.query(
             "INSERT INTO ratings (user_id, track_id, album_id, rating_score) VALUES ($1, $2, $3, $4) \
             ON CONFLICT (user_id, track_id) \
-            DO UPDATE SET rating_score = EXCLUDED.rating_score, created_at = CURRENT_TIMESTAMP", 
+            DO UPDATE SET rating_score = EXCLUDED.rating_score, created_at = CURRENT_TIMESTAMP \
+            RETURNING rating_score", 
             [userID, trackID, track.albumID, ratingScore]
         );
-        const scoresQuery = await pool.query(
-            "SELECT COUNT(CASE WHEN rating_score = 1 THEN 1 ELSE NULL END) as one, \
-            COUNT(CASE WHEN rating_score = 2 THEN 1 ELSE NULL END) as two, \
-            COUNT(CASE WHEN rating_score = 3 THEN 1 ELSE NULL END) as three, \
-            COUNT(CASE WHEN rating_score = 4 THEN 1 ELSE NULL END) as four, \
-            COUNT(CASE WHEN rating_score = 5 THEN 1 ELSE NULL END) as five \
-            FROM ratings WHERE track_id=$1",
-            [trackID]
-        );
 
-        res.status(200).json({ ...scoresQuery.rows[0] });
+        res.status(200).json({ ratingScore: upsertQuery.rows[0].rating_score});
 
     } catch (error) {
         res.status(404).json({ error: error.message });
@@ -209,6 +235,7 @@ module.exports = {
     getAlbum,
     getArtist,
     getTrendingAlbums,
-    rateTrack,
+    getRating,
+    createRating,
     searchData
 };
