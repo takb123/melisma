@@ -14,7 +14,7 @@ const NavBar = () => {
 
     useEffect(() => {
         let handler = (e) => {
-            if (!menuRef.current.contains(e.target)) {
+            if (!menuRef.current?.contains(e.target)) {
                 setMenuOpen(false);
             }
         };
@@ -23,7 +23,7 @@ const NavBar = () => {
         return () => {
             document.removeEventListener("mousedown", handler);
         };
-    });
+    }, []);
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {

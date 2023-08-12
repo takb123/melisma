@@ -13,6 +13,7 @@ a {
 }
 
 span.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
   margin: 5px;
   color: #f8f8f8;
   -webkit-touch-callout: none;
@@ -21,6 +22,11 @@ span.material-symbols-outlined {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 48;
 }
 
 /* NavBar */
@@ -225,12 +231,7 @@ div.sign-form {
   padding: 3% 13%;
   border: 1px solid #f8f8f8;
   border-radius: 20px;
-  /* width: 50%; */
 }
-
-/* div.sign-form * {
-  display: block;
-} */
 
 div.sign-form div.title {
   text-align: center;
@@ -294,4 +295,98 @@ div.sign-form button.signin:hover {
 
 div.sign-form button:loading {
   background-color: #707070;
+}
+
+/* Album */
+div.head {
+  display: flex;
+}
+
+div.head span.title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px;
+}
+
+div.head img {
+  margin: 0 10px;
+}
+
+div.head span.title div.name {
+  font-weight: bold;
+  font-size: 40px;
+  margin: 20px 0;
+}
+
+div.head span.title div.artists a:hover {
+  text-decoration: underline;
+}
+
+div.head span.title div.artists {
+  font-size: 20px;
+}
+
+/* TrackBar */
+div.track {
+  margin: 10px;
+  display: flex;
+  align-items: center;
+}
+
+div.track span {
+  margin: 0 20px;
+  font-size: 20px;
+}
+
+div.track span.index {
+  width: 1.25%;
+}
+
+div.track span.track-name {
+  width: 30%;
+}
+
+div.track span.stars {
+  width: 30%;
+}
+
+div.track .star {
+  margin: 0;
+  font-size: 40px;
+  font-variation-settings: 'FILL' 1; 
+}
+
+div.track .star:hover {
+  cursor: pointer;  
+}
+
+div.track span.active {
+  color: #6b3082;
+}
+
+div.track span.graph-button {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 20px;
+  margin: 5px;
+  font-weight: 700;
+  font-size: 14px;
+  border: 0;
+  border-radius: 10px;
+  justify-content: right;
+  color: #1a70dc;
+  background-color: #202020;
+  /* background-color: #1a70dc; */
+}
+
+div.track span.graph-button:hover {
+  transition: background 0.15s ease;
+  background-color: #303030;
+  /* background-color: #11488d; */
+}
+
+
+div.track div.graph-container {
+  width: 20%;
 }
