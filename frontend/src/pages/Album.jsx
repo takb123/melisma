@@ -15,10 +15,9 @@ const Album = () => {
 
     useEffect(() => {
         const fetchAlbum = async () => {
-            console.log(auth?.token);
             const response = await fetch(`http://localhost:4000/api/music/album/${albumID}`, {
                 headers: {
-                    "Authorization": `Bearer ${auth?.token}`
+                    ...(auth && { "Authorization": `Bearer ${auth.token}` })
                 }
             });
             const json = await response.json();

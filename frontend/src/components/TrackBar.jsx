@@ -19,10 +19,10 @@ const TrackBar = ({ name, id, ratingScore, index }) => {
     const handleRating = async (rating) => {
         const response = await fetch(`http://localhost:4000/api/music/rating/${id}`, {
             method: "POST",
-            body: JSON.stringify({ ratingScore: rating}),
+            body: JSON.stringify({ ratingScore: rating }),
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${auth?.token}`
+                ...(auth && { "Authorization": `Bearer ${auth.token}` })
             }
         });
         const json = await response.json();
@@ -38,7 +38,7 @@ const TrackBar = ({ name, id, ratingScore, index }) => {
     const handleGraph = async () => {
         const response = await fetch(`http://localhost:4000/api/music/rating/${id}`, {
             headers: {
-                "Authorization": `Bearer ${auth?.token}`
+                ...(auth && { "Authorization": `Bearer ${auth.token}` })
             }
         });
         const json = await response.json();

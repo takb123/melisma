@@ -107,7 +107,6 @@ nav div.search-bar:focus-within * {
 
 .search input {
   border: 0;
-  /* width: 300px; */
   max-width: 300px;
   font-size: 18px;
 }
@@ -176,7 +175,7 @@ div.section {
 
 .section-name {
   font-weight: 900;
-  font-size: 24px;
+  font-size: 30px;
   margin: 7px;
 }
 
@@ -373,20 +372,54 @@ div.track span.graph-button {
   font-weight: 700;
   font-size: 14px;
   border: 0;
-  border-radius: 10px;
+  border-radius: 20px;
   justify-content: right;
   color: #1a70dc;
   background-color: #202020;
-  /* background-color: #1a70dc; */
 }
 
 div.track span.graph-button:hover {
   transition: background 0.15s ease;
   background-color: #303030;
-  /* background-color: #11488d; */
+  cursor: pointer;
 }
 
 
 div.track div.graph-container {
   width: 20%;
+}
+
+/* Artist */
+img.circle {
+  border-radius: 50%;
+}
+
+div.albums {
+  margin: 20px;
+}
+
+/* User */
+div.section div.head span.pfp {
+  font-size: 200px;
+}
+
+div.section div.head span.title span.follow-button {
+  padding: 10px 0px;
+  font-weight: 700;
+  font-size: 14px;
+  border: 1px solid #f8f8f8;
+  border-radius: 10px;
+  text-align: center;
+  color: #f8f8f8;
+}
+
+div.section div.head span.title span.follow-button:hover {
+  background-color: #202020;
+  cursor: pointer;
+}
+
+div.section p.name {
+  font-weight: bold;
+  font-size: 24px;
+  margin: 7px;
 }

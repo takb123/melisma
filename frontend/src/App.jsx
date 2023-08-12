@@ -27,8 +27,8 @@ function App() {
         <div className='pages'>
           <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/signup' element={!auth ? <SignUp /> : <Navigate to="/" />} />
-            <Route path='/signin' element={!auth ? <SignIn /> : <Navigate to="/" />} />
+            <Route path='/signup' element={<SignUp />} />
+            <Route path='/signin' element={<SignIn />} />
             <Route path='/album/:albumID' element={<Album />} />
             <Route path='/artist/:artistID' element={<Artist />} />
             <Route path='/user/:username' element={<User />} />
