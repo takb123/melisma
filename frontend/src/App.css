@@ -215,9 +215,13 @@ span.card {
 
 .card span.sub-entry,
 .card span.sub-entry * {
-  font-weight: bold;
+  font-weight: 600;
   font-size: 14px;
   color: #b3b3b3;
+}
+
+.card span.sub-name {
+  font-weight: bold;
 }
 
 .card span.sub-name:hover {
@@ -488,4 +492,41 @@ span.purple {
 
 span.white {
   color: white;
+}
+
+/* Notif */
+div.centered {
+  margin: auto;
+  width: 70%;
+}
+
+div.notif {
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+  border-style: solid none;
+  border-width: 0.5px;
+}
+
+div.notif span.material-symbols-outlined {
+  font-size: 30px;
+  text-align: center;
+  width: 20%;
+}
+
+div.notif span.description,
+div.notif span.time {
+  font-size: 20px;
+}
+
+div.notif span.description {
+  width: 60%;
+}
+
+div.notif span.time {
+  width: 20%;
+}
+
+div.notif a {
+  font-weight: bold;
 }

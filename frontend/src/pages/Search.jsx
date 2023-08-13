@@ -18,10 +18,13 @@ const ArtistCard = ({ artist }) => {
 
 const TrackCard = ({ track }) => {
     return (
-        <Link to={`/album/${track.albumID}`}>
+        <Link to={`/album/${track.album.id}`}>
             <span className='card'>
-                <img src={track.albumImage?.url} width={200} height={200} />
+                <img src={track.album.image.url} width={200} height={200} />
                 <span className='card-entry'><b>{track.name}</b></span>
+                <span className='card-entry sub-entry'>
+                    from <span className="sub-name">{track.album.name}</span>
+                </span>
             </span>
         </Link>
     );
