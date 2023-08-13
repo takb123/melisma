@@ -192,7 +192,7 @@ const searchData = async (req, res) => {
                 "SELECT * FROM ( \
                     (SELECT username, 0 AS key FROM users WHERE POSITION($1 IN username) = 1) UNION \
                     (SELECT username, 1 AS key FROM users WHERE POSITION($1 IN username) > 1) \
-                ) ORDER BY key, LENGTH(username) LIMIT 15",
+                ) AS t ORDER BY key, LENGTH(username) LIMIT 15",
                 [name]
             ),
             fetch(`https://api.spotify.com/v1/search?${query}&type=album%2Cartist%2Ctrack&limit=15`, {

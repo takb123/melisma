@@ -154,7 +154,7 @@ const getUser = async (req, res) => {
         const albumQuery = await pool.query(
             "SELECT * FROM ( \
                 SELECT DISTINCT ON (album_id) album_id, created_at FROM ratings WHERE user_id=$1 ORDER BY album_id \
-            ) ORDER BY created_at LIMIT 15",
+            ) AS t ORDER BY created_at LIMIT 15",
             [userID]
         );
         const albums = await Promise.all(albumQuery.rows.map(row => getAlbumCache(row.album_id)));
