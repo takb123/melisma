@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import AlbumCard from "../components/AlbumCard";
+import { apiURL, defaultProfile } from "../helper";
 
 const Artist = () => {
     const { artistID } = useParams();
@@ -12,7 +13,7 @@ const Artist = () => {
 
     useEffect(() => {
         const fetchArtist = async () => {
-            const response = await fetch(`http://localhost:4000/api/music/artist/${artistID}`);
+            const response = await fetch(`${apiURL}/music/artist/${artistID}`);
             const json = await response.json();
             if (response.ok) {
                 setArtist(json.artist);
@@ -30,13 +31,13 @@ const Artist = () => {
         <div className="section">
             {artist &&
                 <div className="head">
-                    <img className="circle" src={artist.image.url} width={250}/>
+                    <img className="circle" src={artist.image?.url || defaultProfile} width={250} height={250}/>
                     <span className="title">
                         <div className="name">{artist.name}</div>
                     </span>
                 </div>
             }
-            <div className="albums">
+            <div className="content">
                 {albums && albums.map(album => (<AlbumCard album={album} key={album.id} />))}
             </div>
         </div>

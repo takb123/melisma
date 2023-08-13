@@ -28,7 +28,6 @@ const NavBar = () => {
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
             const query = encodeURIComponent(text);
-            console.log(query);
             navigate(`/search/${query}`);
         }
     };

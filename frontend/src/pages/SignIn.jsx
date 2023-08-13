@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { signin } from "../redux/authSlice";
+import { apiURL } from "../helper";
 
 const SignIn = () => {
     const [userMail, setUserMail] = useState("");
@@ -16,7 +17,7 @@ const SignIn = () => {
         e.preventDefault();
         setIsLoading(true);
 
-        const response = await fetch("http://localhost:4000/api/user/signin", {
+        const response = await fetch(`${apiURL}/user/signin`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

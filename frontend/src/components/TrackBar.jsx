@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {Chart, CategoryScale, LinearScale, BarElement, Tooltip } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { apiURL } from "../helper";
 
 Chart.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
@@ -17,7 +18,7 @@ const TrackBar = ({ name, id, ratingScore, index }) => {
     const [graphData, setGraphData] = useState([]);
 
     const handleRating = async (rating) => {
-        const response = await fetch(`http://localhost:4000/api/music/rating/${id}`, {
+        const response = await fetch(`${apiURL}/music/rating/${id}`, {
             method: "POST",
             body: JSON.stringify({ ratingScore: rating }),
             headers: {
@@ -36,7 +37,7 @@ const TrackBar = ({ name, id, ratingScore, index }) => {
     };
 
     const handleGraph = async () => {
-        const response = await fetch(`http://localhost:4000/api/music/rating/${id}`, {
+        const response = await fetch(`${apiURL}/music/rating/${id}`, {
             headers: {
                 ...(auth && { "Authorization": `Bearer ${auth.token}` })
             }

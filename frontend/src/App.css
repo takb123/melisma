@@ -180,30 +180,30 @@ div.section {
 }
 
 /* AlbumCard */
-.album-card, 
-.album-card * {
+.card, 
+.card * {
   background-color: #202020;
 }
 
-.album-card:hover, 
-.album-card:hover * {
+.card:hover, 
+.card:hover * {
   background-color: #303030; 
   transition: background 0.3s ease;
 }
 
-span.album-card {
+span.card {
   display: inline-block;
   padding: 20px;
   border-radius: 10px;
   margin: 7px;
 }
 
-.album-card image {
+.card image {
   display: block;
   margin: 0 auto;
 }
 
-.album-card span.card-entry {
+.card span.card-entry {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -213,14 +213,14 @@ span.album-card {
   margin: 3px;
 }
 
-.album-card span.artist-entry,
-.album-card span.artist-entry * {
+.card span.sub-entry,
+.card span.sub-entry * {
   font-weight: bold;
   font-size: 14px;
   color: #b3b3b3;
 }
 
-.album-card span.artist-name:hover {
+.card span.sub-name:hover {
   text-decoration: underline;
 }
 
@@ -392,15 +392,17 @@ div.track div.graph-container {
 /* Artist */
 img.circle {
   border-radius: 50%;
+  background-color: #202020;
 }
 
-div.albums {
+div.content {
   margin: 20px;
 }
 
 /* User */
-div.section div.head span.pfp {
+span.pfp {
   font-size: 200px;
+  font-variation-settings: 'FILL' 1; 
 }
 
 div.section div.head span.title span.follow-button {
@@ -422,4 +424,68 @@ div.section p.name {
   font-weight: bold;
   font-size: 24px;
   margin: 7px;
+}
+
+/* Search */
+div.section span.category-button {
+  padding: 10px 20px;
+  margin: 5px;
+  font-weight: 700;
+  font-size: 14px;
+  border: 0;
+  border-radius: 20px;
+  justify-content: right;
+}
+
+div.section span.category-button.inactive {
+  background-color: #202020;
+}
+
+div.section span.category-button.inactive:hover {
+  background-color: #303030;
+  cursor: pointer;
+}
+
+div.section span.category-button.active {
+  background-color: #f8f8f8;
+  color: #202020;
+}
+
+div.section span.category-button.active:hover {
+  cursor: pointer;
+}
+
+div.notfound {
+  margin: 100px 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+span.red {
+  color: red;
+}
+
+span.orange {
+  color: orange;
+}
+
+span.yellow {
+  color: yellow;
+}
+
+span.green {
+  color: green;
+}
+
+span.blue {
+  color: blue;
+}
+
+span.purple {
+  color: purple;
+}
+
+span.white {
+  color: white;
 }

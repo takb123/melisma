@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import AlbumCard from "../components/AlbumCard";
+import { apiURL, getUserColor } from "../helper";
 
 const User = () => {
     const { username } = useParams();
@@ -13,7 +14,7 @@ const User = () => {
 
     useEffect(() => {
         const fetchUser = async () => {
-            const response = await fetch(`http://localhost:4000/api/user/profile/${username}`, {
+            const response = await fetch(`${apiURL}/user/profile/${username}`, {
                 headers: {
                     ...(auth && { "Authorization": `Bearer ${auth.token}` })
                 }
@@ -32,7 +33,7 @@ const User = () => {
     }, [username, auth]);
 
     const handleFollow = async () => {
-        const response = await fetch(`http://localhost:4000/api/user/${following ? "unfollow" : "follow"}/${username}`, {
+        const response = await fetch(`${apiURL}/user/${following ? "unfollow" : "follow"}/${username}`, {
             method: "POST",
             headers: {
                 ...(auth && { "Authorization": `Bearer ${auth.token}` })
@@ -56,7 +57,8 @@ const User = () => {
         <div className="section">
             {albums &&
                 <div className="head">
-                    <span className="material-symbols-outlined pfp">person</span>
+                    <span className={`material-symbols-outlined pfp ${getUserColor(username)}`}>person</span>
+                    {/* <img src={defaultProfile} className={getUserColor(username)}width={180} height={180}/> */}
                     <span className="title">
                         <div className="name">{username}</div>
                         {(auth && auth.username !== username) && (<span className="follow-button" onClick={handleFollow}>{following ? "Unfollow" : "Follow"}</span>)}
@@ -64,7 +66,7 @@ const User = () => {
                 </div>
             }
             <p className="name">Recently Rated Albums</p>
-            <div className="albums">
+            <div className="content">
                 {albums && albums.map(album => (<AlbumCard album={album} key={album.id} />))}
             </div>
         </div>

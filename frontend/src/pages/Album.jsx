@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import TrackBar from "../components/TrackBar";
+import { apiURL } from "../helper";
 
 const Album = () => {
     const { albumID } = useParams();
@@ -15,7 +16,7 @@ const Album = () => {
 
     useEffect(() => {
         const fetchAlbum = async () => {
-            const response = await fetch(`http://localhost:4000/api/music/album/${albumID}`, {
+            const response = await fetch(`${apiURL}/music/album/${albumID}`, {
                 headers: {
                     ...(auth && { "Authorization": `Bearer ${auth.token}` })
                 }
