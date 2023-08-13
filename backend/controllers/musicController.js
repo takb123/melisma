@@ -210,7 +210,11 @@ const searchData = async (req, res) => {
         const albums = musicJson.albums.items.map(item => ({
             id: item.id,
             name: item.name,
-            image: item.images[1]
+            image: item.images[1],
+            artists: item.artists.map(artist => ({
+                id: artist.id,
+                name: artist.name
+            }))
         }));
         const artists = musicJson.artists.items.map(item => ({
             id: item.id,
@@ -220,8 +224,11 @@ const searchData = async (req, res) => {
         const tracks = musicJson.tracks.items.map(item => ({
             id: item.id,
             name: item.name,
-            albumID: item.album.id,
-            albumImage: item.album.images[1]
+            album: {
+                id: item.album.id,
+                name: item.album.name,
+                image: item.album.images[1]
+            }
         }));
         
         res.status(200).json({ albums, artists, tracks, users });

@@ -36,9 +36,15 @@ router.post("/rating/:trackid", requireAuth, createRating);
 
 // requirement: /search?name=...  (must be in URL Encoding)
 // result: {
-//     albums: [{ id, name, image }],
+//     albums: [{
+//         id, name, image,
+//         artists: [{ id, name }]
+//      }],
 //     artists: [{ id, name, image }],
-//     tracks: [{ id, name, albumID, albumImage }],
+//     tracks: [{
+//         id, name, 
+//         album: { id, name, image }
+//     }],
 //     users: [{ username }]
 // }
 router.get("/search", searchData);
