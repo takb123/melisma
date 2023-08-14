@@ -1,4 +1,4 @@
-const apiURL = "http://localhost:4000/api";
+const apiURL = "https://melisma-api.onrender.com/api";
 
 const defaultProfile = "https://cdn-icons-png.flaticon.com/512/634/634012.png?w=1380&t=st=1691895486~exp=1691896086~hmac=09e15f4039fddb3f23fe42b5caa32969807c0c2711c9bcb6327e8b9d9489520d";
 
