@@ -19,6 +19,11 @@ app.use((req, res, next) => {
     next();
 });
 
+// healthcheck path
+app.get("/", (req, res) => {
+    res.send("ok");
+});
+
 // route
 app.use("/api/user", userRouter);
 app.use("/api/music", musicRouter);
