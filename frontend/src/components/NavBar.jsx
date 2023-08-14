@@ -20,9 +20,7 @@ const NavBar = () => {
         };
 
         document.addEventListener("mousedown", handler);
-        return () => {
-            document.removeEventListener("mousedown", handler);
-        };
+        return () => document.removeEventListener("mousedown", handler);
     }, []);
 
     const handleKeyDown = (e) => {
@@ -81,7 +79,7 @@ const NavBar = () => {
                             </div>
                         </div>
                     </span>
-                    ) : (
+                ) : (
                     <span className='container'>
                         <Link to='/signup'>
                             <span className='button signup'>Sign Up</span>
@@ -90,8 +88,7 @@ const NavBar = () => {
                             <span className='button signin'>Sign In</span>
                         </Link>
                     </span>
-                )
-                }
+                )}
             </nav>
         </header>
     );

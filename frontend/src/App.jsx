@@ -10,16 +10,20 @@ import Artist from './pages/Artist';
 import Search from './pages/Search';
 import User from './pages/User';
 import Notif from './pages/Notif';
+import NotFound from './pages/NotFound';
 import './App.css';
 import 'react-toastify/dist/ReactToastify.min.css';
-import NotFound from './pages/NotFound';
-
-// Pink: #be0b6d
-// Purple: #6b3082
-// Blue: #11488d
+import { useEffect, useState } from 'react';
 
 function App() {
   const auth = useSelector(state => state.auth.value);
+  const loading = useSelector(state => state.loading.value);
+  const [date, setDate] = useState(Date.now());
+
+  useEffect(() => {
+    const timeID = setInterval(() => setDate(Date.now()), 500);
+    return () => clearInterval(timeID);
+  });
   
   return (
     <div className='App'>
@@ -37,6 +41,11 @@ function App() {
             <Route path='/search/:query' element={<Search />} />
             <Route path='/notfound' element={<NotFound />} />
           </Routes>
+          {loading && <div className='loading'>
+            <div className='loading-wheel'></div>
+            {date - loading > 5000 && <div className='loading-description'>Initial load takes time, please wait...</div>}
+          </div>
+          }
         </div>
         <ToastContainer
           position="bottom-center"

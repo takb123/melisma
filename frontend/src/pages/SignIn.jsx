@@ -68,8 +68,8 @@ const SignIn = () => {
                     </div>
                 }
 
-                <div className={"button" + (isLoading ? " loading" : "")}>
-                    <button className="signin">Sign In</button>
+                <div className="button">
+                    <button className={"signin" + (isLoading ? " loading" : "")}>Sign In</button>
                 </div>
             </div>
         </form>

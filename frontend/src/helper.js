@@ -24,6 +24,6 @@ const getUserColor = (username) => {
         default:
             return "white";
     }
-}
+};
 
 export { apiURL, defaultProfile, getUserColor };

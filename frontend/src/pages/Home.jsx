@@ -2,14 +2,16 @@ import { useState, useEffect } from "react";
 import AlbumCard from '../components/AlbumCard';
 import { apiURL } from "../helper";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { loadOff, loadOn } from "../redux/loadingSlice";
 
 const Home = () => {
     const [albums, setAlbums] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchTrendingAlbums = async () => {
-            setIsLoading(true);
+            dispatch(loadOn());
             const response = await fetch(`${apiURL}/music/trending`);
             const json = await response.json();
 
@@ -19,24 +21,18 @@ const Home = () => {
             else {
                 toast.error(`Error: ${json.error}`);
             }
-            setIsLoading(false);
+            dispatch(loadOff());
         };
 
         fetchTrendingAlbums();
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className="section">
-            {isLoading ? (
-                <div className="loading"></div>
-            ) : (
-                <>
-                    <p className="section-name">Trending Albums</p>
-                    <div className="content">
-                        {albums && albums.map(album => (<AlbumCard key={album.id} album={album}/>))}
-                    </div>
-                </>
-            )}
+            <p className="section-name">Trending Albums</p>
+            <div className="content">
+                {albums && albums.map(album => (<AlbumCard key={album.id} album={album}/>))}
+            </div>
         </div>
     );
 };

@@ -13,7 +13,6 @@ const TrackBar = ({ name, id, ratingScore, index }) => {
 
     const [defaultRating, setDefaultRating] = useState(ratingScore);
     const [currentRating, setCurrentRating] = useState(defaultRating);
-
     const [graphData, setGraphData] = useState([]);
 
     const handleRating = async (rating) => {
@@ -66,7 +65,9 @@ const TrackBar = ({ name, id, ratingScore, index }) => {
                         >star</span>
                 ))}
             </span>
-            {(defaultRating !== 0 && graphData.length === 0) && <span className="graph-button" onClick={handleGraph}>Show Others&apos; Ratings</span>}
+            {(defaultRating !== 0 && graphData.length === 0) && (
+                <span className="graph-button" onClick={handleGraph}>Show Others&apos; Ratings</span>
+            )}
             {graphData.length !== 0 && (
                 <>
                     <div className="graph-container">
@@ -74,22 +75,16 @@ const TrackBar = ({ name, id, ratingScore, index }) => {
                             options={{
                                 responsive: true,
                                 scales: {
-                                    x: {
-                                    display: false
-                                    },
-                                    y: {
-                                    display: false
-                                    }
+                                    x: { display: false },
+                                    y: { display: false }
                                 }
                             }}
                             data={{
                                 labels: ["★1", "★2", "★3", "★4", "★5"],
-                                datasets: [
-                                    {
-                                        data: graphData,
-                                        backgroundColor: "rgba(26, 112, 220, 0.5)",
-                                    },
-                                ],
+                                datasets: [{
+                                    data: graphData,
+                                    backgroundColor: "rgba(26, 112, 220, 0.5)"
+                                }]
                             }}
                         />
                     </div>

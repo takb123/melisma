@@ -82,8 +82,8 @@ const SignUp = () => {
                     </div>
                 }
 
-                <div className={"button" + (isLoading ? " loading" : "")}>
-                    <button className="signup">Sign Up</button>
+                <div className="button">
+                    <button className={"signup" + (isLoading ? " loading" : "")}>Sign In</button>
                 </div>
             </div>
         </form>

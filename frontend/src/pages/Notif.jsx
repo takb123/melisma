@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { apiURL } from "../helper";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { loadOff, loadOn } from "../redux/loadingSlice";
 
 const Notif = () => {
     const auth = useSelector(state => state.auth.value);
+    const dispatch = useDispatch();
 
     const [notifs, setNotifs] = useState(null);
 
     useEffect(() => {
         const fetchNotifs = async () => {
+            dispatch(loadOn());
             const response = await fetch(`${apiURL}/user/notifs`, {
                 headers: {
                     ...(auth && { "Authorization": `Bearer ${auth.token}` })
@@ -23,10 +26,11 @@ const Notif = () => {
             else {
                 toast.error(`Error: ${json.error}`);
             }
+            dispatch(loadOff());
         };
         
         fetchNotifs();
-    }, [auth]);
+    }, [auth, dispatch]);
     return (
         <div className="centered section">
             <p className="section-name">Notifications</p>

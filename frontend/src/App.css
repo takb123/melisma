@@ -179,14 +179,15 @@ div.section {
   margin: 7px;
 }
 
-div.loading {
-	border: 5px solid #f3f3f3;
+div.loading-wheel {
+  margin: 15% auto 2.5%;
+	border: 7px solid #f3f3f3;
 	-webkit-animation: spin 1s linear infinite;
 	animation: spin 1s linear infinite;
-	border-top: 5px solid #555;
+	border-top: 7px solid #555;
 	border-radius: 50%;
-	width: 50px;
-	height: 50px;
+	width: 100px;
+	height: 100px;
 }
 /* Safari */
 @-webkit-keyframes spin {
@@ -197,6 +198,11 @@ div.loading {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+div.loading-description {
+  text-align: center;
+  font-size: 20px;
 }
 
 /* AlbumCard */
@@ -330,8 +336,8 @@ div.sign-form button.signin:hover {
   transition: background 0.15s ease;
 }
 
-div.sign-form button:loading {
-  background-color: #707070;
+div.sign-form button.loading {
+  background-color: #707070 !important;
 }
 
 /* Album */

@@ -9,7 +9,11 @@ const AlbumCard = ({ album }) => {
                 <span className='card-entry'><b>{album.name}</b></span>
                 <span className='card-entry sub-entry'>
                     {album.artists && album.artists
-                        .map(artist => (<Link key={artist.id} to={`/artist/${artist.id}`}><span className='sub-name'>{artist.name}</span></Link>))
+                        .map(artist => (
+                            <Link key={artist.id} to={`/artist/${artist.id}`}>
+                                <span className='sub-name'>{artist.name}</span>
+                            </Link>
+                        ))
                         .reduce((prev, curr) => [prev, ', ', curr])
                     }
                 </span>

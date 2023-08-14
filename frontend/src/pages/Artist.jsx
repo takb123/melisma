@@ -1,19 +1,22 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import AlbumCard from "../components/AlbumCard";
 import { apiURL, defaultProfile } from "../helper";
+import { useDispatch } from "react-redux";
+import { loadOff, loadOn } from "../redux/loadingSlice";
 
 const Artist = () => {
     const { artistID } = useParams();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [artist, setArtist] = useState(null);
     const [albums, setAlbums] = useState([]);
 
     useEffect(() => {
         const fetchArtist = async () => {
+            dispatch(loadOn());
             const response = await fetch(`${apiURL}/music/artist/${artistID}`);
             const json = await response.json();
             if (response.ok) {
@@ -28,10 +31,11 @@ const Artist = () => {
                     toast.error(`Error: ${json.error}`);
                 }
             }
+            dispatch(loadOff());
         };
 
         fetchArtist();
-    }, []);
+    }, [artistID, dispatch, navigate]);
 
     return (
         <div className="section">

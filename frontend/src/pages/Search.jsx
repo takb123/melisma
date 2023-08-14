@@ -4,6 +4,8 @@ import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import AlbumCard from "../components/AlbumCard";
 import { apiURL, defaultProfile, getUserColor } from "../helper";
+import { useDispatch } from "react-redux";
+import { loadOff, loadOn } from "../redux/loadingSlice";
 
 const ArtistCard = ({ artist }) => {
     return (
@@ -43,6 +45,7 @@ const UserCard = ({ user }) => {
 
 const Search = () => {
     const { query } = useParams(); 
+    const dispatch = useDispatch();
 
     const [albums, setAlbums] = useState([]);
     const [artists, setArtists] = useState([]);
@@ -52,6 +55,7 @@ const Search = () => {
 
     useEffect(() => {
         const fetchSearch = async () => {
+            dispatch(loadOn());
             const response = await fetch(`${apiURL}/music/search?name=${query}`);
             const json = await response.json();
 
@@ -64,10 +68,11 @@ const Search = () => {
             else {
                 toast.error(`Error: ${json.error}`);
             }
+            dispatch(loadOff());
         }
 
         fetchSearch();
-    }, [query]);
+    }, [dispatch, query]);
 
     return (
         <div className="section">
@@ -83,13 +88,17 @@ const Search = () => {
                 {albums.length !== 0 && (() => {
                     switch (curr) {
                         case 0:
-                            return albums.length ? albums.map(album => (<AlbumCard album={album} key={album.id} />)) : <div className="notfound">No Results</div>
+                            return albums.length ? albums.map(album => (<AlbumCard album={album} key={album.id} />))
+                                                 : <div className="notfound">No Results</div>
                         case 1:
-                            return artists.length ? artists.map(artist => (<ArtistCard artist={artist} key={artist.id} />)) : <div className="notfound">No Results</div>
+                            return artists.length ? artists.map(artist => (<ArtistCard artist={artist} key={artist.id} />))
+                                                  : <div className="notfound">No Results</div>
                         case 2:
-                            return tracks.length ? tracks.map(track => (<TrackCard track={track} key={track.id} />)) : <div className="notfound">No Results</div>
+                            return tracks.length ? tracks.map(track => (<TrackCard track={track} key={track.id} />))
+                                                 : <div className="notfound">No Results</div>
                         case 3:
-                            return users.length ? users.map(user => (<UserCard user={user} key={user} />)) : <div className="notfound">No Results</div>
+                            return users.length ? users.map(user => (<UserCard user={user} key={user} />))
+                                                : <div className="notfound">No Results</div>
                         default:
                             return <></>
                     }
