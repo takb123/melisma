@@ -4,10 +4,12 @@ import { apiURL } from "../helper";
 import { toast } from "react-toastify";
 
 const Home = () => {
-    const [ albums, setAlbums ] = useState([]);
+    const [albums, setAlbums] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const fetchTrendingAlbums = async () => {
+            setIsLoading(true);
             const response = await fetch(`${apiURL}/music/trending`);
             const json = await response.json();
 
@@ -17,6 +19,7 @@ const Home = () => {
             else {
                 toast.error(`Error: ${json.error}`);
             }
+            setIsLoading(false);
         };
 
         fetchTrendingAlbums();
@@ -24,10 +27,16 @@ const Home = () => {
 
     return (
         <div className="section">
-            <p className="section-name">Trending Albums</p>
-            <div className="content">
-                {albums && albums.map(album => (<AlbumCard key={album.id} album={album}/>))}
-            </div>
+            {isLoading ? (
+                <div className="loading"></div>
+            ) : (
+                <>
+                    <p className="section-name">Trending Albums</p>
+                    <div className="content">
+                        {albums && albums.map(album => (<AlbumCard key={album.id} album={album}/>))}
+                    </div>
+                </>
+            )}
         </div>
     );
 };
