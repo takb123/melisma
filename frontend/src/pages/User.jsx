@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import AlbumCard from "../components/AlbumCard";
 import { apiURL, getUserColor } from "../helper";
@@ -8,8 +9,9 @@ import { apiURL, getUserColor } from "../helper";
 const User = () => {
     const { username } = useParams();
     const auth = useSelector(state => state.auth.value);
+    const navigate = useNavigate();
 
-    const [albums, setAlbums] = useState([]);
+    const [albums, setAlbums] = useState(null);
     const [following, setFollowing] = useState(0);
 
     useEffect(() => {
@@ -25,9 +27,14 @@ const User = () => {
                 setFollowing(json.following);
             }
             else {
-                toast.error(`Error: ${json.error}`);
+                if (json.error === 'invalid id') {
+                    navigate('/notfound');
+                }
+                else {
+                    toast.error(`Error: ${json.error}`);
+                }
             }
-        }
+        };
 
         fetchUser();
     }, [username, auth]);
@@ -58,7 +65,6 @@ const User = () => {
             {albums &&
                 <div className="head">
                     <span className={`material-symbols-outlined pfp ${getUserColor(username)}`}>person</span>
-                    {/* <img src={defaultProfile} className={getUserColor(username)}width={180} height={180}/> */}
                     <span className="title">
                         <div className="name">{username}</div>
                         {(auth && auth.username !== username) && (<span className="follow-button" onClick={handleFollow}>{following ? "Unfollow" : "Follow"}</span>)}
@@ -67,7 +73,10 @@ const User = () => {
             }
             <p className="name">Recently Rated Albums</p>
             <div className="content">
-                {albums && albums.map(album => (<AlbumCard album={album} key={album.id} />))}
+                {albums && (albums.length !== 0 ? 
+                    albums.map(album => (<AlbumCard album={album} key={album.id} />)) :
+                    (<div className="notfound">No Albums</div>)
+                )}
             </div>
         </div>
     );

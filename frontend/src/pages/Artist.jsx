@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import AlbumCard from "../components/AlbumCard";
 import { apiURL, defaultProfile } from "../helper";
 
 const Artist = () => {
     const { artistID } = useParams();
+    const navigate = useNavigate();
 
     const [artist, setArtist] = useState(null);
     const [albums, setAlbums] = useState([]);
@@ -20,9 +21,14 @@ const Artist = () => {
                 setAlbums(json.albums);
             }
             else {
-                toast.error(`Error: ${json.error}`);
+                if (json.error === 'invalid id') {
+                    navigate('/notfound');
+                }
+                else {
+                    toast.error(`Error: ${json.error}`);
+                }
             }
-        }
+        };
 
         fetchArtist();
     }, []);

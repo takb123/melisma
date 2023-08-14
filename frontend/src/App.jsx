@@ -12,6 +12,7 @@ import User from './pages/User';
 import Notif from './pages/Notif';
 import './App.css';
 import 'react-toastify/dist/ReactToastify.min.css';
+import NotFound from './pages/NotFound';
 
 // Pink: #be0b6d
 // Purple: #6b3082
@@ -34,6 +35,7 @@ function App() {
             <Route path='/user/:username' element={<User />} />
             <Route path='/notif' element={auth ? <Notif /> : <Navigate to="/" />} />
             <Route path='/search/:query' element={<Search />} />
+            <Route path='/notfound' element={<NotFound />} />
           </Routes>
         </div>
         <ToastContainer

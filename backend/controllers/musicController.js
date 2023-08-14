@@ -74,10 +74,10 @@ const getArtist = async (req, res) => {
         const [artistJson, albumJson] = await Promise.all([artistResponse.json(), albumResponse.json()]);
 
         if (!artistResponse.ok) {
-            throw new Error(json.error.message);
+            throw new Error(artistJson.error.message);
         }
         if (!albumResponse.ok) {
-            throw new Error(json.error.message);
+            throw new Error(albumJson.error.message);
         }
 
         const artist = {

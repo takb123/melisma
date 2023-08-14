@@ -1,16 +1,21 @@
 import { useState, useEffect } from "react";
 import AlbumCard from '../components/AlbumCard';
+import { apiURL } from "../helper";
+import { toast } from "react-toastify";
 
 const Home = () => {
     const [ albums, setAlbums ] = useState([]);
 
     useEffect(() => {
         const fetchTrendingAlbums = async () => {
-            const response = await fetch('http://localhost:4000/api/music/trending');
+            const response = await fetch(`${apiURL}/music/trending`);
             const json = await response.json();
 
             if (response.ok) {
                 setAlbums(json.albums);
+            }
+            else {
+                toast.error(`Error: ${json.error}`);
             }
         };
 

@@ -261,8 +261,22 @@ div.sign-form .input {
   margin: 15px 0;
 }
 
-div.sign-form .error {
-  color: red;
+div.sign-form div.errors {
+  border: 1px solid #e9654e;
+  margin: 20px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+div.sign-form div.errors * {
+  color: #e9654e;
+  font-weight: 600;
+  margin: 5px;
+}
+
+div.sign-form ul.errors-list {
+  list-style-position: inside;
+  padding-left: 0;
 }
 
 div.sign-form .button {

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
 import { signin } from "../redux/authSlice";
 import { apiURL } from "../helper";
 
@@ -11,12 +10,18 @@ const SignUp = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    const [errors, setErrors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!username || !email || !password || !confirmPassword) {
+            return;
+        }
+
         setIsLoading(true);
 
         const response = await fetch(`${apiURL}/user/signup`, {
@@ -39,7 +44,7 @@ const SignUp = () => {
         }
         else {
             setIsLoading(false);
-            toast.error(`Error: ${json.error}`);
+            setErrors(json.errorMessages);
         }
     }
 
@@ -69,6 +74,13 @@ const SignUp = () => {
                     <label>Confirm Password</label>
                     <input type="password" onChange={e => setConfirmPassword(e.target.value)} value={confirmPassword} /> 
                 </div>
+
+                {errors.length !== 0 && 
+                    <div className="errors">
+                        <p>Error</p>
+                        <ul className="errors-list">{errors.map(error => (<li key={error}>{error}</li>))}</ul>
+                    </div>
+                }
 
                 <div className={"button" + (isLoading ? " loading" : "")}>
                     <button className="signup">Sign Up</button>

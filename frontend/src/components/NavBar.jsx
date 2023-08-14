@@ -26,7 +26,7 @@ const NavBar = () => {
     }, []);
 
     const handleKeyDown = (e) => {
-        if (e.key === "Enter") {
+        if (e.key === "Enter" && text) {
             const query = encodeURIComponent(text);
             navigate(`/search/${query}`);
         }

@@ -1,7 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import TrackBar from "../components/TrackBar";
 import { apiURL } from "../helper";
@@ -9,6 +8,7 @@ import { apiURL } from "../helper";
 const Album = () => {
     const { albumID } = useParams();
     const auth = useSelector(state => state.auth.value);
+    const navigate = useNavigate();
 
     const [album, setAlbum] = useState(null);
     const [tracks, setTracks] = useState([]);
@@ -28,12 +28,18 @@ const Album = () => {
                 setArtists(json.artists);
             }
             else {
-                toast.error(`Error: ${json.error}`);
+                if (json.error === "invalid id") {
+                    navigate("/notfound");
+                }
+                else {
+                    toast.error(`Error: ${json.error}`);
+                }
             }
         };
 
         fetchAlbum();
-    }, []);
+        console.log("Fetch Album");
+    }, [auth, albumID]);
 
     return (
         <div className="section">
@@ -53,7 +59,7 @@ const Album = () => {
             }
             <div className="tracks">
                 {tracks && tracks.map((track, i) => (
-                    <TrackBar name={track.name} id={track.id} ratingScore={track.ratingScore} index={i+1} key={track.id}/>
+                    <TrackBar name={track.name} id={track.id} ratingScore={track.ratingScore} index={i+1} key={`${track.id}.${track.ratingScore}`}/>
                 ))}
             </div>
         </div>

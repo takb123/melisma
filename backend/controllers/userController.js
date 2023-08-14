@@ -10,26 +10,30 @@ const createToken = (userID) => {
 };
 
 const signupUser = async (req, res) => {
+    let errorMessages = [];
     try {
         const { email, username, password, confirm_password } = req.body;
     
         if (!email || !username || !password || !confirm_password) {
-            throw new Error("All fields must be filled in");
+            errorMessages.push("All fields must be filled in");
         }
         if (!validator.isEmail(email) || email.length > 100) {
-            throw new Error("Invalid email");
+            errorMessages.push("Invalid email");
         }
         const usernameRegex = /^[a-zA-Z0-9_-]{4,16}$/;  // 4-16 characters, alphanumeric and _ and - allowed 
         if (!usernameRegex.test(username)) {
-            throw new Error("Invalid username");
+            errorMessages.push("Invalid username");
         }
         if (!validator.isStrongPassword(password)) {
-            throw new Error("Password not strong enough");
+            errorMessages.push("Password not strong enough");
         }
         if (password !== confirm_password) {
-            throw new Error("Passwords do not match");
+            errorMessages.push("Passwords do not match");
         }
-
+        if (errorMessages.length) {
+            throw Error("Check errorMessages");
+        }
+        
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(password, salt);
         const userQuery = await pool.query(
@@ -37,17 +41,18 @@ const signupUser = async (req, res) => {
             RETURNING user_id", 
             [email, username, hash]
         );
-        
+
         res.status(200).json({ username, token: createToken(userQuery.rows[0].user_id) });
 
     } catch (error) {
         if (error.code === "23505") {  // UNIQUE violation
             const violated = error.constraint.split("_")[1]; // error.constraint is in the form "TABLENAME_COLUMNNAME_key" 
-            res.status(404).json({ error: `This ${violated} already exists` });
+            errorMessages.push(`This ${violated} already exists`);
         }
-        else {
-            res.status(404).json({ error: error.message });
-        }
+        res.status(404).json({
+            error: error.message,
+            errorMessages
+        });
     }
 };
 
@@ -147,7 +152,7 @@ const getUser = async (req, res) => {
             [username]
         );
         if (userExistQuery.rowCount === 0) {
-            throw new Error("User does not exist");
+            throw new Error("invalid id");
         }
         const userID = userExistQuery.rows[0].user_id;
 

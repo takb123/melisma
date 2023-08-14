@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -47,7 +46,10 @@ const TrackBar = ({ name, id, ratingScore, index }) => {
         if (response.ok) {
             setGraphData([json.one, json.two, json.three, json.four, json.five]);
         }
-    }
+        else {
+            toast.error(`Error: ${json.error}`);
+        }
+    };
 
     return (
         <div className="track">
@@ -68,31 +70,28 @@ const TrackBar = ({ name, id, ratingScore, index }) => {
             {graphData.length !== 0 && (
                 <>
                     <div className="graph-container">
-                    <Bar 
-                        options={{
-                            responsive: true,
-                            // maintainAspectRatio: false,
-                            scales: {
-                                x: {
-                                display: false
-                                },
-                                y: {
-                                display: false
+                        <Bar 
+                            options={{
+                                responsive: true,
+                                scales: {
+                                    x: {
+                                    display: false
+                                    },
+                                    y: {
+                                    display: false
+                                    }
                                 }
-                            }
-                        }}
-                        data={{
-                            labels: ["★1", "★2", "★3", "★4", "★5"],
-                            datasets: [
-                                {
-                                    data: graphData,
-                                    backgroundColor: "rgba(26, 112, 220, 0.5)",
-                                },
-                            ],
-                        }}
-                        // height={10}
-                        // width={40}
-                    />
+                            }}
+                            data={{
+                                labels: ["★1", "★2", "★3", "★4", "★5"],
+                                datasets: [
+                                    {
+                                        data: graphData,
+                                        backgroundColor: "rgba(26, 112, 220, 0.5)",
+                                    },
+                                ],
+                            }}
+                        />
                     </div>
                     <span className="material-symbols-outlined" onClick={() => setGraphData([])}>close</span> 
                 </>

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
 import { signin } from "../redux/authSlice";
 import { apiURL } from "../helper";
 
@@ -9,12 +8,18 @@ const SignIn = () => {
     const [userMail, setUserMail] = useState("");
     const [password, setPassword] = useState("");
 
+    const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!userMail || !password) {
+            return;
+        }
+
         setIsLoading(true);
 
         const response = await fetch(`${apiURL}/user/signin`, {
@@ -37,7 +42,7 @@ const SignIn = () => {
         }
         else {
             setIsLoading(false);
-            toast.error(`Error: ${json.error}`);
+            setError(json.error);
         }
     }
 
@@ -55,6 +60,13 @@ const SignIn = () => {
                     <label>Password</label>
                     <input type="password" onChange={e => setPassword(e.target.value)} value={password} /> 
                 </div>
+
+                {error.length !== 0 && 
+                    <div className="errors">
+                        <p>Error</p>
+                        <ul className="errors-list"><li>{error}</li></ul>
+                    </div>
+                }
 
                 <div className={"button" + (isLoading ? " loading" : "")}>
                     <button className="signin">Sign In</button>
